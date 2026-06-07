@@ -1,15 +1,19 @@
-import express from "express"
+import { app } from './app.js';
+import { closeBrowser } from './extractor/browser.js';
 
-const app = express();
+const PORT = Number(process.env.PORT) || 5000;
 
-app.use(express.json());
+const server = app.listen(PORT, () => {
+  console.log(`token-extractor API listening on http://localhost:${PORT}`);
+});
 
-app.get("/",(req,res)=>{
-    res.json({
-        "status":"running",
-})
-})
+// Clean up the shared browser on shutdown.
+async function shutdown(signal: string): Promise<void> {
+  console.log(`\n${signal} received — shutting down...`);
+  server.close();
+  await closeBrowser();
+  process.exit(0);
+}
 
-app.listen(5000,()=>{
-    console.log("running")
-})
+process.on('SIGINT', () => void shutdown('SIGINT'));
+process.on('SIGTERM', () => void shutdown('SIGTERM'));

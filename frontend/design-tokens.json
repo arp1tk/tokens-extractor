@@ -1,0 +1,75 @@
+{
+	"meta": {
+		"sourceUrl": "https://ovo-kiwi.webflow.io/",
+		"scrapedAt": "2026-06-06T17:22:40.282Z"
+	},
+	"colors": {
+		"page-color": "#fff",
+		"heading-font-color": "#000",
+		"paragraph-font-color": "#000000d9",
+		"brand-color": "#87ed82",
+		"elements-bg": "#fefefe",
+		"elements-stroke": "#cbcbcb",
+		"hoved-color": "#f7f7f7"
+	},
+	"typography": {
+		"fontFamilies": {
+			"main-font": "Onest, sans-serif",
+			"paragraph-font": "Inter, sans-serif"
+		},
+		"fontSizes": {
+			"size-1": "16px",
+			"size-2": "14px",
+			"size-3": "18px",
+			"size-4": "15px",
+			"size-5": "20px",
+			"size-6": "24px",
+			"size-7": "22px",
+			"size-8": "40px",
+			"size-9": "17px",
+			"size-10": "28px",
+			"size-11": "38px",
+			"size-12": "32px"
+		}
+	},
+	"spacing": {
+		"space-1": "12px",
+		"space-2": "20px",
+		"space-3": "10px",
+		"space-4": "8px",
+		"space-5": "16px",
+		"space-6": "24px",
+		"space-7": "15px",
+		"space-8": "40px",
+		"space-9": "30px",
+		"space-10": "60px",
+		"space-11": "9px",
+		"space-12": "4px",
+		"space-13": "32px",
+		"space-14": "100px",
+		"space-15": "70px",
+		"space-16": "5px"
+	},
+	"radii": {
+		"radius-1": "3px",
+		"radius-2": "8px",
+		"radius-3": "6px",
+		"radius-4": "12px",
+		"radius-5": "2px",
+		"radius-6": "20px",
+		"radius-7": "7px",
+		"radius-8": "10px",
+		"radius-9": "5px",
+		"radius-10": "4px"
+	},
+	"fonts": [
+		{
+			"family": "Onest",
+			"source": "https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900%7COnest:100,200,300,regular,500,600,700,800,900"
+		},
+		{
+			"family": "Inter",
+			"source": "https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900%7COnest:100,200,300,regular,500,600,700,800,900"
+		}
+	]
+}
