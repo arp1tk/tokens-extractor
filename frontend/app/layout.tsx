@@ -1,7 +1,7 @@
 import './globals.css';
 import Header from '@/components/layout/Header';
 import type { ReactNode } from 'react';
-
+import { Analytics } from '@vercel/analytics/next';
 export const metadata = {
   title: 'Tokn — tokenize any website',
   description:
@@ -13,6 +13,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body id="top" className="overflow-x-clip">
         <Header />
+       <Analytics/>
         {children}
       </body>
     </html>

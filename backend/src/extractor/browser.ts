@@ -9,11 +9,18 @@ let browserPromise: Promise<Browser> | null = null;
 
 export async function getBrowser(): Promise<Browser> {
   if (!browserPromise) {
-    browserPromise = chromium.launch({ headless: true }).catch((err: unknown) => {
-      // Reset so a failed launch can be retried on the next request.
-      browserPromise = null;
-      throw err;
-    });
+    browserPromise = chromium
+      .launch({
+        headless: true,
+        // Required to launch Chromium inside a container (Render/Docker), where
+        // the kernel sandbox isn't available and /dev/shm is tiny.
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+      })
+      .catch((err: unknown) => {
+        // Reset so a failed launch can be retried on the next request.
+        browserPromise = null;
+        throw err;
+      });
   }
   return browserPromise;
 }
