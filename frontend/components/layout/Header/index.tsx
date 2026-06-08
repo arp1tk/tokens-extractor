@@ -12,8 +12,8 @@ const NAV_ITEMS = [
 function Logo() {
   return (
     <a href="/" aria-label="Tokn home" className="relative z-20 shrink-0 px-2">
-      <span className="brand-wordmark">
-        tokn<span className="brand-dot">.</span>
+      <span className="font-main text-2xl font-bold leading-none tracking-[-0.03em] text-black">
+        tokn<span className="text-brand">.</span>
       </span>
     </a>
   );

@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import type { Tokens, ApiError, TextStyle, FontEntry } from '@/lib/tokens';
-import './tool.css';
+import type { Tokens, ApiError } from '@/lib/tokens';
+import HeroDecor from './HeroDecor';
+import Results from './Results';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:5000';
 
@@ -41,29 +42,38 @@ export default function ToolSection() {
   }
 
   return (
-    <div className="container" id="tool" data-section="tool">
-      <div className="hero-decor" aria-hidden="true">
-        <svg className="hero-ring ring-a" width="240" height="240" viewBox="0 0 240 240" fill="none">
-          <circle cx="120" cy="120" r="60" stroke="#87ed82" strokeOpacity="0.55" />
-          <circle cx="120" cy="120" r="90" stroke="#87ed82" strokeOpacity="0.32" />
-          <circle cx="120" cy="120" r="119" stroke="#87ed82" strokeOpacity="0.16" />
-        </svg>
-        <svg className="hero-ring ring-b" width="180" height="180" viewBox="0 0 180 180" fill="none">
-          <circle cx="90" cy="90" r="44" stroke="#87ed82" strokeOpacity="0.5" />
-          <circle cx="90" cy="90" r="68" stroke="#87ed82" strokeOpacity="0.28" />
-          <circle cx="90" cy="90" r="89" stroke="#87ed82" strokeOpacity="0.14" />
-        </svg>
-      </div>
-      <div className="hero-tool">
-        <h1 className="hero-title">Extract design tokens from any website</h1>
-        <p className="hero-tool-sub">
+    <div className="container !pb-12 !pt-24 max-[860px]:!pt-16" id="tool" data-section="tool">
+      <HeroDecor busy={status === 'loading' || status === 'done'} />
+      <div className="relative z-[1] mx-auto max-w-[780px] text-center">
+        <h1 className="hero-title max-[479px]:!text-[30px] max-[479px]:!leading-[1.12] max-[360px]:!text-[26px]">
+          Extract design{' '}
+          <span className="relative inline-block whitespace-nowrap">
+            tokens
+            <svg
+              className="pointer-events-none absolute -bottom-[0.04em] left-0 h-[0.3em] w-full"
+              viewBox="0 0 200 16"
+              preserveAspectRatio="none"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M4 10 C 50 3, 95 3, 140 8 C 166 11, 186 11, 196 7"
+                stroke="#87ed82"
+                strokeWidth="8"
+                strokeLinecap="round"
+              />
+            </svg>
+          </span>{' '}
+          from any website
+        </h1>
+        <p className="mx-auto mb-[34px] mt-[18px] max-w-[600px] font-body text-lg leading-[1.6] text-[#000000d9]">
           Paste a URL and get its colors, typography, spacing, shadows and a full style profile as
           clean JSON — ready to hand to an AI to build from.
         </p>
-        <form className="tool-form" onSubmit={handleSubmit}>
-          <div className="tool-inputwrap">
+        <form className="w-full" onSubmit={handleSubmit}>
+          <div className="flex items-center gap-1.5 rounded-[14px] border border-[color:var(--elements-stroke,#cbcbcb)] bg-white p-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-[border-color,box-shadow] duration-150 focus-within:border-brand focus-within:shadow-[0_0_0_3px_rgba(135,237,130,0.35)] max-[560px]:flex-col max-[560px]:gap-2.5 max-[560px]:rounded-none max-[560px]:border-0 max-[560px]:bg-transparent max-[560px]:p-0 max-[560px]:shadow-none max-[560px]:focus-within:shadow-none">
             <input
-              className="tool-input"
+              className="h-[50px] min-w-0 flex-1 border-0 bg-transparent px-4 font-body text-base text-black outline-none placeholder:text-[#00000059] max-[560px]:h-[52px] max-[560px]:w-full max-[560px]:flex-none max-[560px]:rounded-[12px] max-[560px]:border max-[560px]:border-[color:var(--elements-stroke,#cbcbcb)] max-[560px]:bg-white max-[560px]:shadow-[0_1px_2px_rgba(0,0,0,0.04)] max-[560px]:focus:border-brand max-[560px]:focus:shadow-[0_0_0_3px_rgba(135,237,130,0.35)]"
               name="url"
               placeholder="https://example.webflow.io"
               type="url"
@@ -71,216 +81,37 @@ export default function ToolSection() {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
             />
-            <button type="submit" className="tool-submit" disabled={status === 'loading'}>
+            <button
+              type="submit"
+              className="h-[50px] cursor-pointer rounded-[10px] border-none bg-brand px-7 font-main text-base font-semibold text-[#08240a] transition-[filter] duration-150 hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60 max-[560px]:h-[52px] max-[560px]:w-full max-[560px]:rounded-[12px]"
+              disabled={status === 'loading'}
+            >
               Extract
             </button>
           </div>
         </form>
-        <div className="tool-hint">Works with Webflow · Framer · any live site.</div>
+        <div className="mt-3 font-body text-[13px] text-[#00000073]">
+          Works with Webflow · Framer · any live site.
+        </div>
       </div>
 
       {status === 'loading' && (
-        <div className="te-loading" role="status" aria-live="polite">
-          <span className="te-dots" aria-hidden="true">
-            <i></i>
-            <i></i>
-            <i></i>
+        <div className="relative z-[1] mt-8 flex items-center justify-center gap-2.5" role="status" aria-live="polite">
+          <span className="inline-flex items-center gap-[5px]" aria-hidden="true">
+            <i className="h-2.5 w-2.5 animate-te-dot rounded-full bg-brand [animation-delay:-0.32s] motion-reduce:animate-none motion-reduce:opacity-80"></i>
+            <i className="h-2.5 w-2.5 animate-te-dot rounded-full bg-brand [animation-delay:-0.16s] motion-reduce:animate-none motion-reduce:opacity-80"></i>
+            <i className="h-2.5 w-2.5 animate-te-dot rounded-full bg-brand motion-reduce:animate-none motion-reduce:opacity-80"></i>
           </span>
-          <span className="te-loading-label">Extracting</span>
+          <span className="font-body text-[15px] tracking-[0.01em] text-[#00000099]">Extracting</span>
         </div>
       )}
       {status === 'error' && error && (
-        <p className="te-status error">
+        <p className="mt-4 rounded-xl border border-[color:var(--elements-stroke,#cbcbcb)] bg-[color:var(--hoved-color,#f7f7f7)] px-4 py-3 font-body text-[15px] text-black">
           <strong>Couldn&apos;t extract — </strong>
           {error}
         </p>
       )}
       {status === 'done' && data && <Results data={data} />}
     </div>
-  );
-}
-
-function Results({ data }: { data: Tokens }) {
-  const [showRaw, setShowRaw] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  async function copy() {
-    await navigator.clipboard.writeText(JSON.stringify(data, null, 2));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1800);
-  }
-
-  return (
-    <div className="te-results">
-      <div className="te-results-head">
-        <div>
-          <p className="te-results-title">Design tokens</p>
-          <span className="te-source">{data.meta?.sourceUrl}</span>
-        </div>
-        <div className="te-actions">
-          <button className="te-btn" onClick={() => setShowRaw((v) => !v)}>
-            {showRaw ? 'Visual' : '{ } Raw'}
-          </button>
-          <button className="te-btn primary" onClick={copy}>
-            {copied ? 'Copied!' : 'Copy JSON'}
-          </button>
-        </div>
-      </div>
-
-      {data.warning && <p className="te-status error">{data.warning}</p>}
-
-      {showRaw ? (
-        <pre className="te-raw">{JSON.stringify(data, null, 2)}</pre>
-      ) : (
-        <div className="te-grid">
-          {data.styleProfile && <StyleProfileCard p={data.styleProfile} />}
-          {data.colorRoles && <SwatchCard title="Color roles" colors={data.colorRoles} />}
-          {data.colors && (
-            <SwatchCard title={`Palette (${Object.keys(data.colors).length})`} colors={data.colors} full />
-          )}
-          {data.textStyles && <TextStylesCard styles={data.textStyles} />}
-          {data.fonts && data.fonts.length > 0 && <FontsCard fonts={data.fonts} />}
-          {data.shadows && <ShadowsCard shadows={data.shadows} />}
-          {data.gradients && data.gradients.length > 0 && <GradientsCard gradients={data.gradients} />}
-          {data.spacing && <ScaleCard title="Spacing" map={data.spacing} />}
-          {data.radii && <ScaleCard title="Radii" map={data.radii} />}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function StyleProfileCard({ p }: { p: NonNullable<Tokens['styleProfile']> }) {
-  const chips = [
-    p.brandColor && `brand ${p.brandColor}`,
-    p.isDark ? 'dark' : 'light',
-    `corners: ${p.cornerStyle}`,
-    `density: ${p.density}`,
-    `elevation: ${p.elevation}`,
-    ...p.vibe,
-  ].filter(Boolean) as string[];
-  return (
-    <section className="te-card full">
-      <h3 className="te-card-title">Style profile</h3>
-      <div className="te-chips">
-        {chips.map((c) => (
-          <span key={c} className="te-chip">{c}</span>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function SwatchCard({ title, colors, full }: { title: string; colors: Record<string, string>; full?: boolean }) {
-  return (
-    <section className={`te-card${full ? ' full' : ''}`}>
-      <h3 className="te-card-title">{title}</h3>
-      <div className="te-swatches">
-        {Object.entries(colors).map(([name, value]) => (
-          <div key={name}>
-            <div className="te-swatch-box" style={{ background: value }} />
-            <div className="te-swatch-name">{name}</div>
-            <div className="te-swatch-val">{value}</div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function clampPreview(size: string): string {
-  const px = parseFloat(size);
-  if (!Number.isNaN(px)) return `${Math.min(px, 34)}px`;
-  return size;
-}
-
-function TextStylesCard({ styles }: { styles: Record<string, TextStyle> }) {
-  return (
-    <section className="te-card full">
-      <h3 className="te-card-title">Text styles</h3>
-      {Object.entries(styles).map(([role, s]) => (
-        <div key={role} className="te-type-row">
-          <span
-            className="te-type-sample"
-            style={{
-              fontFamily: s.family,
-              fontSize: clampPreview(s.size),
-              fontWeight: s.weight,
-              lineHeight: s.lineHeight ?? undefined,
-              letterSpacing: s.letterSpacing ?? undefined,
-            }}
-          >
-            {role}
-          </span>
-          <span className="te-type-spec">
-            {s.family} · {s.size} · {s.weight}
-            {s.lineHeight ? ` · lh ${s.lineHeight}` : ''}
-            {s.letterSpacing ? ` · ls ${s.letterSpacing}` : ''}
-          </span>
-        </div>
-      ))}
-    </section>
-  );
-}
-
-function FontsCard({ fonts }: { fonts: FontEntry[] }) {
-  const max = Math.max(...fonts.map((f) => f.usage), 1);
-  return (
-    <section className="te-card">
-      <h3 className="te-card-title">Fonts</h3>
-      {fonts.map((f) => (
-        <div key={f.family} className="te-font-row">
-          <span className="te-font-name" style={{ fontFamily: f.family }}>{f.family}</span>
-          {f.role && <span className="te-font-role">{f.role}</span>}
-          <div className="te-bar-track">
-            <div className="te-bar-fill" style={{ width: `${(f.usage / max) * 100}%` }} />
-          </div>
-          <span className="te-font-pct">{f.usage}%</span>
-        </div>
-      ))}
-    </section>
-  );
-}
-
-function ShadowsCard({ shadows }: { shadows: Record<string, string> }) {
-  return (
-    <section className="te-card">
-      <h3 className="te-card-title">Shadows</h3>
-      <div className="te-shadow-grid">
-        {Object.entries(shadows).map(([name, value]) => (
-          <div key={name} className="te-shadow-item">
-            <div className="te-shadow-tile" style={{ boxShadow: value }} />
-            <span className="te-shadow-name">{name}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function GradientsCard({ gradients }: { gradients: string[] }) {
-  return (
-    <section className="te-card">
-      <h3 className="te-card-title">Gradients</h3>
-      {gradients.map((g, i) => (
-        <div key={i}>
-          <div className="te-grad" style={{ background: g }} />
-          <div className="te-swatch-val">{g}</div>
-        </div>
-      ))}
-    </section>
-  );
-}
-
-function ScaleCard({ title, map }: { title: string; map: Record<string, string> }) {
-  return (
-    <section className="te-card">
-      <h3 className="te-card-title">{title}</h3>
-      <div className="te-chips">
-        {Object.entries(map).map(([name, value]) => (
-          <span key={name} className="te-chip mono">{name}: {value}</span>
-        ))}
-      </div>
-    </section>
   );
 }

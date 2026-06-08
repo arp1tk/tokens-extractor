@@ -1,0 +1,4 @@
+# Exclude scraped/vendored Webflow CSS from GitHub language stats.
+# This file is a ~167KB CSS dump produced by the scraper, not hand-written code,
+# so it shouldn't count toward the repo's language breakdown.
+frontend/app/globals.css linguist-vendored

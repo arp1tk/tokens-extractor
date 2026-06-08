@@ -1,0 +1,18 @@
+/* The CTA in the last feature card was an absolute overlay that escaped its
+   card. Place it in normal flow, centered below the image instead. */
+.feature-grid-image-holder .button.cta-button {
+  position: static;
+  right: auto;
+  bottom: auto;
+}
+.feature-grid-image-holder .fade-in-on-scroll._100width {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+/* tighten the tall top/bottom padding on the last card */
+.feature-grid-image-holder {
+  padding-top: 44px;
+  padding-bottom: 44px;
+}

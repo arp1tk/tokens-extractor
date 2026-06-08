@@ -1,5 +1,4 @@
 import './globals.css';
-import './site.css';
 import Header from '@/components/layout/Header';
 import type { ReactNode } from 'react';
 
@@ -12,7 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body id="top">
+      <body id="top" className="overflow-x-clip">
         <Header />
         {children}
       </body>
